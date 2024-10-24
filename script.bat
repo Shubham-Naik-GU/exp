@@ -13,11 +13,14 @@ pipeline {
         }
         stage('Run') {
             steps {
-                bat 'java -jar myJar.jar'
+                script {
+                    def output = bat(script: 'java -jar myJar.jar', returnStdout: true).trim()
+                    echo output
+                }
             }
         }
-        stage('Artifact'){
-            steps{
+        stage('Artifact') {
+            steps {
                 archiveArtifacts artifacts: '*.jar', followSymlinks: false
             }
         }
